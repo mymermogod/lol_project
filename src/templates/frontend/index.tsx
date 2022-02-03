@@ -8,6 +8,7 @@ type FrontendProps = {
 const Frontend = ({ children }: FrontendProps) => {
     return ( <S.Container>
         <Header></Header>
+        <main>{children}</main>
         </S.Container>
     );
 };
