@@ -1,39 +1,24 @@
 import * as S  from './styles'
-
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useState } from 'react';
 import IFormInput from '../../Models/iforminput' 
-import PlanValue from '../../Models/planvalue'
 import { franchising, routecall } from '../../utils/calculate';
 
 
-
 const Form = () => {
-    const [data, setData] = useState<IFormInput>();
-    const [valueWithPlan, setValueWithPlan] = useState<PlanValue>();
-    const [valueWithoutPlan, setValueWithoutPlan] = useState<PlanValue>();
+    const [valueWithPlan, setValueWithPlan] = useState<number>();
+    const [valueWithoutPlan, setValueWithoutPlan] = useState<number>();
     const { register, handleSubmit } = useForm<IFormInput>();
     function onSubmit(data: IFormInput) {
-        setData(data);
-    }
-    function pricingPlanCall(data: IFormInput) {
-        if(data.minutes>franchising.[data.selectedPlan]){
-           const withPlan = (data.minutes-franchising[data.selectedPlan])*routecall[data.selectedDddO][data.selectedDddF]
-           setValueWithPlan(valueWithPlan);
+           setValueWithoutPlan(data.minutes*routecall[data.selectedDddO][data.selectedDddF]*0.9);
+        if(data.minutes>franchising[data.selectedPlan]){
+           setValueWithPlan((data.minutes-franchising[data.selectedPlan])*routecall[data.selectedDddO][data.selectedDddF]);
         }else {
-           const withPlan = 0.00;
-           setValueWithPlan(valueWithPlan);
-    }  
-}
-    function pricingNoPlanCall(data: IFormInput) {
-       const withoutPlan = data.minutes*routecall[data.selectedDddO][data.selectedDddF]*0.9
-       setValueWithoutPlan(valueWithoutPlan);
-
+           setValueWithPlan(0.00);
     }
+}
 
-    console.log(data)
-    console.log(valueWithPlan)
-    console.log(valueWithoutPlan)
+    
     
     return (
     <S.Container onSubmit={handleSubmit(onSubmit)}>
@@ -66,6 +51,24 @@ const Form = () => {
       <S.FormInput {...register("minutes")}/>
       <br/>  
       <S.FormButton type="submit">Calculate</S.FormButton>
+      <S.PriceColumn>
+      <S.PriceHeader>
+        <S.PricePlan>
+          <S.DolarSign>$</S.DolarSign>
+          {valueWithPlan?.toFixed(1)}
+        </S.PricePlan>
+        <S.SelectedPlan>FaleMais</S.SelectedPlan>
+      </S.PriceHeader>
+      </S.PriceColumn>
+      <S.PriceColumnSec>
+        <S.PriceHeader>
+          <S.PriceNoPlan>
+            <S.DolarSign>$</S.DolarSign>
+            {valueWithoutPlan?.toFixed(1)}
+          </S.PriceNoPlan>
+          <S.SelectedPlan>SemPlano</S.SelectedPlan>
+        </S.PriceHeader>
+      </S.PriceColumnSec>
       </S.Container>
     );
 }

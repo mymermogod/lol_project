@@ -27,7 +27,6 @@ export default interface IFormInput {
 selectedPlan: PlanEnum;
 selectedDddO: DddOrigin;
 selectedDddF: DddFinal;
-minutes: number;
-    
+minutes: number;  
 };
 
