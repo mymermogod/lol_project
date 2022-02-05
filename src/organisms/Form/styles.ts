@@ -92,7 +92,7 @@ export const SelectedPlan = styled.div`
     margin-bottom: 0;
 `
 export const PricePlan = styled.div`
-    font-size: 3.5rem;
+    font-size: 2.3rem;
     display: flex;
 `
 export const PriceNoPlan =  styled.div`
